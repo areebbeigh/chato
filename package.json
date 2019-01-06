@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/areebbeigh/chato/issues"
   },
-  "homepage": "https://github.com/areebbeigh/chato#readme"
+  "homepage": "https://github.com/areebbeigh/chato#readme",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
 }
