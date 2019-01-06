@@ -4,7 +4,7 @@
   "description": "A simple webrtc based p2p chat application.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/.bin/nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/areebbeigh/chato#readme",
   "dependencies": {
-    "bluebird": "^3.5.3",
     "express": "^4.16.4",
     "socket.io": "^2.2.0"
   },

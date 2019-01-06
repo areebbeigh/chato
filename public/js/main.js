@@ -1,37 +1,31 @@
-const socket = io.connect(`https://${window.location.hostname}:8081`)
+const socket = io.connect(`https://8080-performjealousshrew.cdr.co/`)
 
 let isInitiator = false
 const mediaConstraints = {
   video: true, audio: false
 }
-
-const joinButton = document.querySelector('#joinButton')
-const nicknameInput = document.querySelector('#nicknameInput')
-const channelInput = document.querySelector('#channelInput')
 const localVideo = document.querySelector('#localVideo')
 const remoteVideo = document.querySelector('#remoteVideo')
 
-joinButton.onclick = joinOrCreate
+let pc, localStream, dataChannel
 
-let nickname, channel, pc, localStream, dataChannel
-
-function joinOrCreate() {
-  nickname = nicknameInput.value
-  channel = channelInput.value
-
-  if (!nickname || !channel) {
-    alert('Both fields are required!')
-    return
-  }
-
-  socket.emit('join or create', { nickname, channel })
+function getRoom () {
+  return window.location.hash.slice(1) || null
 }
 
-socket.on('created', function (data) {
-  console.log('yooo')
-  isInitiator = true
-  setupMediaStream()
-})
+function getRoomUrl () {
+  return `https://${window.location.host}/#${getRoom()}`
+}
+
+function joinOrCreate() {
+  const room = getRoom()
+
+  if (room) {
+    socket.emit('join or create', room)
+  } else {
+    socket.emit('join or create')
+  }
+}
 
 async function setupMediaStream() {
   try {
@@ -45,16 +39,29 @@ async function setupMediaStream() {
   }
 }
 
-socket.on('created', function (data) {
+socket.on('created', function (room) {
   console.log(`I'm the initiator`)
+  window.location.hash = room
   isInitiator = true
   setupMediaStream()
 })
 
 // This peer is the joiner
-socket.on('joined', function (data) {
+socket.on('joined', function (room) {
   console.log(`I'm the joiner`)
+  window.location.hash = room
   setupMediaStream()
+})
+
+socket.on('peer_disconnected', function () {
+  console.log('peer disconnected.')
+  isInitiator = true
+})
+
+// Room is full (2 clients)
+socket.on('full', function () {
+  alert('This room is already full')
+  window.location = `https://${window.location.host}`
 })
 
 socket.on('message', function (message) {
@@ -85,7 +92,6 @@ socket.on('message', function (message) {
   
   // Peer successfully set up his local media stream
   if (message.message == 'got media stream') {
-    console.log('heere')
     createPeerConnection()
     if (isInitiator) {
       createOffer()
@@ -182,9 +188,11 @@ function sendMessage(message) {
   }
 
   const msg = {
-    channel,
+    room: getRoom(),
     ...message
   }
 
   socket.emit('message', msg)
 }
+
+joinOrCreate()
