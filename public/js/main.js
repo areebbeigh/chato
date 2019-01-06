@@ -2,7 +2,10 @@ const socket = io.connect(`https://8080-performjealousshrew.cdr.co/`)
 
 let isInitiator = false
 const mediaConstraints = {
-  video: true, audio: true
+  video: {
+    facingMode: 'user'
+  }, 
+  audio: true
 }
 const localVideo = document.querySelector('#localVideo')
 const remoteVideo = document.querySelector('#remoteVideo')
@@ -200,20 +203,20 @@ function sendMessage(message) {
 function toggleMic () {
   if (localStream.getAudioTracks().length) {
     localStream.removeTrack(localAudioTrack)
-    document.querySelector('#btnMicToggle').innerHTML = 'mic'
+    document.querySelector('#btnMicToggle').querySelector('i').innerHTML = 'mic_off'
   } else {
     localStream.addTrack(localAudioTrack)
-    document.querySelector('#btnMicToggle').innerHTML = 'mic_off'
+    document.querySelector('#btnMicToggle').querySelector('i').innerHTML = 'mic'
   }
 }
 
 function toggleCam () {
   if (localStream.getVideoTracks().length) {
     localStream.removeTrack(localVideoTrack)
-    document.querySelector('#btnCamToggle').innerHTML = 'videocam'
+    document.querySelector('#btnCamToggle').querySelector('i').innerHTML = 'videocam_off'
   } else {
     localStream.addTrack(localVideoTrack)
-    document.querySelector('#btnCamToggle').innerHTML = 'videocam_off'
+    document.querySelector('#btnCamToggle').querySelector('i').innerHTML = 'videocam'
   }
 }
 
