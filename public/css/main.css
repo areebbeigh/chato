@@ -1,0 +1,47 @@
+#remoteVideo {
+  position: relative;
+  width: 100%;
+  max-height: 100vh;
+}
+
+#localVideo {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  z-index: 1;
+}
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.action-buttons {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  padding-bottom: 0;
+}
+
+.action-buttons a {
+  display: block;
+  margin-bottom: 20px;
+}
+
+body {
+  background: #000;
+}
+
+@media only screen and (max-width: 768px) {
+  #localVideo {
+    position: relative;
+    width: 100%;
+    max-height: 50vh;
+  }
+
+  #remoteVideo {
+    mhxa-eight: 50vh;
+  }
+} 

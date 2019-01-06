@@ -2,12 +2,12 @@ const socket = io.connect(`https://8080-performjealousshrew.cdr.co/`)
 
 let isInitiator = false
 const mediaConstraints = {
-  video: true, audio: false
+  video: true, audio: true
 }
 const localVideo = document.querySelector('#localVideo')
 const remoteVideo = document.querySelector('#remoteVideo')
 
-let pc, localStream, dataChannel
+let pc, localStream, localAudioTrack, localVideoTrack, dataChannel
 
 function getRoom () {
   return window.location.hash.slice(1) || null
@@ -31,6 +31,8 @@ async function setupMediaStream() {
   try {
     localStream = await navigator.mediaDevices.getUserMedia(mediaConstraints)
     localVideo.srcObject = localStream
+    localAudioTrack = localStream.getAudioTracks()[0]
+    localVideoTrack = localStream.getVideoTracks()[0]
     createPeerConnection()
     sendMessage('got media stream')
   } catch (err) {
@@ -193,6 +195,26 @@ function sendMessage(message) {
   }
 
   socket.emit('message', msg)
+}
+
+function toggleMic () {
+  if (localStream.getAudioTracks().length) {
+    localStream.removeTrack(localAudioTrack)
+    document.querySelector('#btnMicToggle').innerHTML = 'mic'
+  } else {
+    localStream.addTrack(localAudioTrack)
+    document.querySelector('#btnMicToggle').innerHTML = 'mic_off'
+  }
+}
+
+function toggleCam () {
+  if (localStream.getVideoTracks().length) {
+    localStream.removeTrack(localVideoTrack)
+    document.querySelector('#btnCamToggle').innerHTML = 'videocam'
+  } else {
+    localStream.addTrack(localVideoTrack)
+    document.querySelector('#btnCamToggle').innerHTML = 'videocam_off'
+  }
 }
 
 joinOrCreate()

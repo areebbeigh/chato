@@ -2,16 +2,25 @@
 <html>
 <head>
   <title>chato</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
 </head>
 <body>
-  <video id="localVideo" autoplay></video>
-  <video id="remoteVideo" autoplay></video>
+  <div class="wrapper">
+    <video id="remoteVideo" autoplay></video>
+    <video id="localVideo" autoplay></video>
+    <div class="action-buttons">
+      <a class="btn-floating btn-large waves-effect waves-light grey darken-3" id="btnMicToggle" onclick="toggleMic()"><i class="material-icons">mic</i></a>
+      <a class="btn-floating btn-large waves-effect waves-light grey darken-3" id="btnCamToggle" onclick="toggleCam()"><i class="material-icons">videocam</i></a>
+    </div>
+  </div>
 
   <script>
     javascript:(function () { var script = document.createElement('script'); script.src="//cdn.jsdelivr.net/npm/eruda"; document.body.appendChild(script); script.onload = function () { eruda.init() } })();
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
   <script src="./js/main.js"></script>
