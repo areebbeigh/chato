@@ -5,23 +5,16 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
+const clientRoomMap = {}
+
 io.on('connection', function (socket) {
   socket.on('message', function (message) {
     socket.broadcast.to(message.room).emit('message', message)
   })
 
   socket.on('disconnect', function () {
-    console.log('here', socket.rooms)
-    const socketRooms = Object.keys(socket.rooms)
-    let room = null
-
-    if (socketRooms.length > 1 && socket.isInitiator) {
-      room = socketRooms.filter(x => x != socket.id)[0]
-    } else if (socketRooms.length === 1) {
-      room = socketRooms[0]
-    }
-
-    console.log(room, socketRooms)
+    let room = clientRoomMap[socket.id]
+    delete clientRoomMap[socket.id]
 
     if (room) {
       io.in(room).clients((err, clients) => {
@@ -35,6 +28,7 @@ io.on('connection', function (socket) {
   socket.on('join or create', async function (room) {
     if (!room) {
       socket.emit('created', socket.id)
+      clientRoomMap[socket.id] = socket.id
       socket.isInitiator = true
     }
     else {
@@ -42,14 +36,13 @@ io.on('connection', function (socket) {
         const numClients = clients.length
   
         if (numClients == 0) {
-          socket.join(room)
-          socket.emit('created', room)
-          socket.isInitiator = true
+          socket.emit('invalid_room')
         } else if (numClients == 1) {
           io.sockets.in(room).emit('join', room)
           socket.join(room)
           socket.emit('joined', room)
           socket.isInitiator = false
+          clientRoomMap[socket.id] = room
         } else {
           socket.emit('full', room)
         }
