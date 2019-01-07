@@ -1,3 +1,12 @@
+body {
+  background: #000;
+}
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+}
+
 #remoteVideo {
   position: relative;
   width: 100%;
@@ -13,9 +22,47 @@
   z-index: 0;
 }
 
-.wrapper {
-  height: 100%;
+.chatArea {
+  width: 50%;
+  height: 50vh;
+  background: #191818 !important;
+  color: #fff; 
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.chatArea .toolBar {
+  height: 10%;
+}
+
+.chatArea .toolBar .btn {
+  position: absolute;
+  right: 0;
+}
+
+.chatArea .msgBox {
+  overflow-y: scroll;
+  height: 90%;
   width: 100%;
+  padding: 10px 20px 10px 20px;
+}
+
+.chatArea .msgInput { 
+  position: absolute;
+  bottom: 0;
+  margin: 0 !important;
+  background: #191818 !important;
+  color: #fff;
+  width: 97% !important;
+  padding-left: 3% !important;
+  border: none !important;
+}
+
+.chatArea .msgInput:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .action-buttons {
@@ -32,10 +79,6 @@
   margin-bottom: 20px;
 }
 
-body {
-  background: #000;
-}
-
 @media only screen and (max-width: 768px) {
   #localVideo {
     position: relative;
@@ -44,6 +87,6 @@ body {
   }
 
   #remoteVideo {
-    mhxa-eight: 50vh;
+    max-height: 50vh;
   }
 } 

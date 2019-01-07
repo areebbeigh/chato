@@ -3,12 +3,25 @@
 <head>
   <title>chato</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
 </head>
 <body>
   <div class="wrapper">
+    <div class="chatArea">
+      <div class="toolBar">
+          <a class="btn grey darken-3">
+            <i class="material-icons">close</i>
+          </a>
+      </div>
+      <div class="msgBox">
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente, accusamus reiciendis cum harum a excepturi facilis! Id, quas reiciendis ratione beatae neque facilis dolore et repellendus, quae aliquid voluptatum ut.</p>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente, accusamus reiciendis cum harum a excepturi facilis! Id, quas reiciendis ratione beatae neque facilis dolore et repellendus, quae aliquid voluptatum ut.</p>
+      </div>
+      <input type="text" placeholder="Type something..." class="msgInput">
+    </div>
+
     <video id="remoteVideo" autoplay></video>
     <video id="localVideo" autoplay muted></video>
     <div class="action-buttons">
