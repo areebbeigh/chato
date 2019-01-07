@@ -1,4 +1,6 @@
-const socket = io.connect(`https://8080-performjealousshrew.cdr.co/`)
+const production = false
+const socketServerUrl = production ? `https://${window.location.href}:8080` : `https://8080-performjealousshrew.cdr.co/`
+const socket = io.connect(socketServerUrl)
 
 let pc, localStream, localAudioTrack, localVideoTrack, dataChannel
 let isInitiator = false
@@ -62,6 +64,12 @@ socket.on('joined', function (room) {
   console.log(`I'm the joiner`)
   history.pushState('', 'chato', `/${room}`)
   setupMediaStream()
+})
+
+// Room doesn't exist
+socket.on('invalid_room', function () {
+  alert(`This room does not exist. You'll be redirected to a new empty one!`)
+  window.location = `https://${window.location.host}`
 })
 
 socket.on('peer_disconnected', function () {
@@ -258,9 +266,11 @@ function toggleCam () {
   if (localStream.getVideoTracks().length) {
     localStream.removeTrack(localVideoTrack)
     btnIcon.innerHTML = 'videocam_off'
+    localVideo.src = ''
   } else {
     localStream.addTrack(localVideoTrack)
     btnIcon.innerHTML = 'videocam'
+    localVideo.srcObject = localStream
   }
 }
 
@@ -295,6 +305,7 @@ function displayLonelyToast () {
 
 function disconnectedFromPeer () {
   displayLonelyToast()
+  remoteVideo.src = ''
 }
 
 function connectedToPeer () {
