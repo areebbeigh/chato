@@ -57,4 +57,4 @@ app.use('/public', express.static('./public', { etag: false }))
 app.use('/*', (req, res) => res.sendFile(path.resolve(__dirname, 'public/index.html')))
 
 server.listen(8080, () => console.log(`Socket server running.`))
-app.listen(8000, () => console.log(`Server server running.`))
+app.listen(80, () => console.log(`Server server running.`))
