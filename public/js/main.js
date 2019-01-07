@@ -18,11 +18,11 @@ const localVideo = document.querySelector('#localVideo')
 const remoteVideo = document.querySelector('#remoteVideo')
 
 function getRoom () {
-  return window.location.hash.slice(1) || null
+  return window.location.pathname.slice(1) || null
 }
 
 function getRoomUrl () {
-  return `https://${window.location.host}/#${getRoom()}`
+  return `https://${window.location.host}/${getRoom()}`
 }
 
 function joinOrCreate() {
@@ -51,7 +51,7 @@ async function setupMediaStream() {
 
 socket.on('created', function (room) {
   console.log(`I'm the initiator`)
-  window.location.hash = room
+  history.pushState('', 'chato', `/${room}`)
   isInitiator = true
   setupMediaStream()
   disconnectedFromPeer()
@@ -60,7 +60,7 @@ socket.on('created', function (room) {
 // This peer is the joiner
 socket.on('joined', function (room) {
   console.log(`I'm the joiner`)
-  window.location.hash = room
+  history.pushState('', 'chato', `/${room}`)
   setupMediaStream()
 })
 
