@@ -1,6 +1,8 @@
 const socket = io.connect(`https://8080-performjealousshrew.cdr.co/`)
 
+let pc, localStream, localAudioTrack, localVideoTrack, dataChannel
 let isInitiator = false
+
 const mediaConstraints = {
   video: {
     facingMode: 'user'
@@ -8,12 +10,12 @@ const mediaConstraints = {
   audio: true
 }
 
+const clipboard = new ClipboardJS('.copy-location')
+const chatArea = document.querySelector('#chatArea')
 const msgBox = document.querySelector('#msgBox')
 const chatInput = document.querySelector('#chatInput')
 const localVideo = document.querySelector('#localVideo')
 const remoteVideo = document.querySelector('#remoteVideo')
-
-let pc, localStream, localAudioTrack, localVideoTrack, dataChannel
 
 function getRoom () {
   return window.location.hash.slice(1) || null
@@ -52,6 +54,7 @@ socket.on('created', function (room) {
   window.location.hash = room
   isInitiator = true
   setupMediaStream()
+  disconnectedFromPeer()
 })
 
 // This peer is the joiner
@@ -63,8 +66,12 @@ socket.on('joined', function (room) {
 
 socket.on('peer_disconnected', function () {
   console.log('peer disconnected.')
+  disconnectedFromPeer()
   isInitiator = true
 })
+
+// Initiator gets join message on peer join
+socket.on('join', connectedToPeer)
 
 // Room is full (2 clients)
 socket.on('full', function () {
@@ -171,8 +178,9 @@ function sendChatData () {
   const msg = chatInput.value
   if (msg) {
     dataChannel.send(msg)
+    appendChatMessage(msg, true)
+    chatInput.value = ''
   }
-  appendChatMessage(msg, true)
 }
 
 function appendChatMessage(msg, isInitiatior) {
@@ -180,6 +188,7 @@ function appendChatMessage(msg, isInitiatior) {
   node.className = isInitiatior ? 'initiatorMsg' : 'joinerMsg'
   node.textContent = msg
   msgBox.appendChild(node)
+  msgBox.scrollTop = msgBox.scrollHeight
 }
 
 function gotDataChannel (event) {
@@ -232,29 +241,74 @@ function sendMessage(message) {
 }
 
 function toggleMic () {
+  const btnIcon = document.querySelector('#btnMicToggle').querySelector('i')
+
   if (localStream.getAudioTracks().length) {
     localStream.removeTrack(localAudioTrack)
-    document.querySelector('#btnMicToggle').querySelector('i').innerHTML = 'mic_off'
+    btnIcon.innerHTML = 'mic_off'
   } else {
     localStream.addTrack(localAudioTrack)
-    document.querySelector('#btnMicToggle').querySelector('i').innerHTML = 'mic'
+    btnIcon.innerHTML = 'mic'
   }
 }
 
 function toggleCam () {
+  const btnIcon = document.querySelector('#btnCamToggle').querySelector('i')
+
   if (localStream.getVideoTracks().length) {
     localStream.removeTrack(localVideoTrack)
-    document.querySelector('#btnCamToggle').querySelector('i').innerHTML = 'videocam_off'
+    btnIcon.innerHTML = 'videocam_off'
   } else {
     localStream.addTrack(localVideoTrack)
-    document.querySelector('#btnCamToggle').querySelector('i').innerHTML = 'videocam'
+    btnIcon.innerHTML = 'videocam'
   }
 }
 
-joinOrCreate()
+function toggleChat () {
+  const btnIcon = document.querySelector('#btnChatToggle').querySelector('i')
 
-chatInput.addEventListener('keyup', function (e) {
-  if (e.key === 'Enter') {
-    sendChatData()
-  }
-})
+  chatArea.hidden = !chatArea.hidden
+  if (chatArea.hidden) {
+    btnIcon.innerHTML = 'speaker_notes_off'
+  } else [
+    btnIcon.innerHTML = 'message'
+  ]
+}
+
+function copyRoomUrl () {
+
+}
+
+function displayLonelyToast () {
+  let toastHtml = `
+  <span>
+    You're alone :(
+  </span>
+  <button
+    data-clipboard-text="${window.location.href}"
+    class="btn-flat toast-action blue-text copy-location"
+    onclick="copyRoomUrl()">
+    Copy room URL
+  </button>`
+  M.toast({ html: toastHtml, displayLength: Infinity, classes: 'lonely-toast' })
+}
+
+function disconnectedFromPeer () {
+  displayLonelyToast()
+}
+
+function connectedToPeer () {
+  M.Toast.dismissAll()
+}
+
+function main () {
+  toggleChat()
+  joinOrCreate()
+  chatInput.addEventListener('keyup', function (e) {
+    if (e.key === 'Enter') {
+      sendChatData()
+    }
+  })
+}
+
+main()

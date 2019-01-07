@@ -9,9 +9,9 @@
 </head>
 <body>
   <div class="wrapper">
-    <div class="chatArea">
+    <div id="chatArea" class="chatArea">
       <div class="toolBar">
-          <a class="btn grey darken-4">
+          <a class="btn grey darken-4" onclick="toggleChat()">
             <i class="material-icons">close</i>
           </a>
       </div>
@@ -24,14 +24,16 @@
     <div class="action-buttons">
       <a class="btn-floating btn-large waves-effect waves-light grey darken-3" id="btnMicToggle" onclick="toggleMic()"><i class="material-icons">mic</i></a>
       <a class="btn-floating btn-large waves-effect waves-light grey darken-3" id="btnCamToggle" onclick="toggleCam()"><i class="material-icons">videocam</i></a>
+      <a class="btn-floating btn-large waves-effect waves-light grey darken-3" id="btnChatToggle" onclick="toggleChat()"><i class="material-icons">message</i></a>
     </div>
   </div>
 
   <script>
-    javascript:(function () { var script = document.createElement('script'); script.src="//cdn.jsdelivr.net/npm/eruda"; document.body.appendChild(script); script.onload = function () { eruda.init() } })();
+    // javascript:(function () { var script = document.createElement('script'); script.src="//cdn.jsdelivr.net/npm/eruda"; document.body.appendChild(script); script.onload = function () { eruda.init() } })();
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.js"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
   <script src="./js/main.js"></script>
 </body>
