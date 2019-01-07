@@ -1,4 +1,4 @@
-const socketServerUrl = `${window.location.href.slice(0, -1)}`
+const socketServerUrl = `https://${window.location.host}`
 const socket = io.connect(socketServerUrl)
 
 let pc, localStream, localAudioTrack, localVideoTrack, dataChannel
