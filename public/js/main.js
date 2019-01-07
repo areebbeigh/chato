@@ -1,5 +1,4 @@
-const production = true
-const socketServerUrl = production ? `${window.location.href.slice(0, -1)}:8080` : `https://8080-performjealousshrew.cdr.co/`
+const socketServerUrl = `${window.location.href.slice(0, -1)}`
 const socket = io.connect(socketServerUrl)
 
 let pc, localStream, localAudioTrack, localVideoTrack, dataChannel
