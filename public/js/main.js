@@ -7,6 +7,9 @@ const mediaConstraints = {
   }, 
   audio: true
 }
+
+const msgBox = document.querySelector('#msgBox')
+const chatInput = document.querySelector('#chatInput')
 const localVideo = document.querySelector('#localVideo')
 const remoteVideo = document.querySelector('#remoteVideo')
 
@@ -124,12 +127,16 @@ function createPeerConnection () {
   // Add onstream handler - add / remove remote stream to remoteVideo
   pc.onaddstream = handleRemoteStreamAdded
   pc.onremovestream = handleRemoteStreamRemoved
-  // Setup data channel if isInitiatior with onopen onclose onmessage
-  dataChannel = pc.createDataChannel('dataChannel')
-  // Add datachannel callbacks
-  dataChannel.onopen = handleDataChannelStateChange
-  dataChannel.onclose = handleDataChannelStateChange
-  dataChannel.onmessage = handleDataChannelMessage
+  if (isInitiator) {
+    // Setup data channel if isInitiatior with onopen onclose onmessage
+    dataChannel = pc.createDataChannel('dataChannel')
+    // Add datachannel callbacks
+    dataChannel.onopen = handleDataChannelStateChange
+    dataChannel.onclose = handleDataChannelStateChange
+    dataChannel.onmessage = handleDataChannelMessage
+  } else {
+    pc.ondatachannel = gotDataChannel
+  }
 }
 
 function handleIceCandidate (event) {
@@ -156,7 +163,31 @@ function handleDataChannelStateChange (event) {
 }
 
 function handleDataChannelMessage (event) {
-  // nothing yet
+  appendChatMessage(event.data, false)
+}
+
+function sendChatData () {
+  console.log('Sending chat data')
+  const msg = chatInput.value
+  if (msg) {
+    dataChannel.send(msg)
+  }
+  appendChatMessage(msg, true)
+}
+
+function appendChatMessage(msg, isInitiatior) {
+  const node = document.createElement('p')
+  node.className = isInitiatior ? 'initiatorMsg' : 'joinerMsg'
+  node.textContent = msg
+  msgBox.appendChild(node)
+}
+
+function gotDataChannel (event) {
+  console.log('Got data channel')
+  dataChannel = event.channel
+  dataChannel.onopen = handleDataChannelStateChange
+  dataChannel.onclose = handleDataChannelStateChange
+  dataChannel.onmessage = handleDataChannelMessage
 }
 
 async function createOffer() {
@@ -221,3 +252,9 @@ function toggleCam () {
 }
 
 joinOrCreate()
+
+chatInput.addEventListener('keyup', function (e) {
+  if (e.key === 'Enter') {
+    sendChatData()
+  }
+})

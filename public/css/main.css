@@ -28,8 +28,8 @@ body {
   background: #191818 !important;
   color: #fff; 
   position: fixed;
-  top: 1%;
-  left: 0.5%;
+  top: 1px;
+  left: 1px;
 }
 
 .chatArea .toolBar {
@@ -53,18 +53,22 @@ body {
 }
 
 .chatArea .msgBox p {
-  border: 1px #2b2a2a solid;
+  /* border: 1px #2b2a2a solid; */
   padding: 2%;
+  border-radius: 0.8em;
+  color: #000;
 }
 
 .chatArea .msgBox p.initiatorMsg {
-  width: 90%;
-  margin-left: 10%;
+  background: #1B924A;
+  width: 85%;
+  margin-left: 15%;
 }
 
 .chatArea .msgBox p.joinerMsg {
-  width: 90%;
-  margin-right: 10%;
+  background: #b9b9b9;
+  width: 85%;
+  margin-right: 15%;
 }
 
 .chatArea .msgInput {
