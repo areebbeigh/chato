@@ -1,4 +1,4 @@
-const production = false
+const production = true
 const socketServerUrl = production ? `https://${window.location.href}:8080` : `https://8080-performjealousshrew.cdr.co/`
 const socket = io.connect(socketServerUrl)
 
