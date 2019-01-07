@@ -28,39 +28,55 @@ body {
   background: #191818 !important;
   color: #fff; 
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 1%;
+  left: 0.5%;
 }
 
 .chatArea .toolBar {
+  position: relative;
   height: 10%;
+  border-bottom:3px solid #2b2a2a;
 }
 
 .chatArea .toolBar .btn {
   position: absolute;
   right: 0;
+  height: 100%;
+  box-shadow: none !important;
 }
 
 .chatArea .msgBox {
   overflow-y: scroll;
-  height: 90%;
+  height: 80%;
   width: 100%;
   padding: 10px 20px 10px 20px;
 }
 
-.chatArea .msgInput { 
-  position: absolute;
-  bottom: 0;
+.chatArea .msgBox p {
+  border: 1px #2b2a2a solid;
+  padding: 2%;
+}
+
+.chatArea .msgBox p.initiatorMsg {
+  width: 90%;
+  margin-left: 10%;
+}
+
+.chatArea .msgBox p.joinerMsg {
+  width: 90%;
+  margin-right: 10%;
+}
+
+.chatArea .msgInput {
   margin: 0 !important;
   background: #191818 !important;
   color: #fff;
-  width: 97% !important;
   padding-left: 3% !important;
-  border: none !important;
+  border: 3px solid #2b2a2a !important;
+  box-sizing: border-box !important;
 }
 
 .chatArea .msgInput:focus {
-  border: none !important;
   outline: none !important;
   box-shadow: none !important;
 }
@@ -88,5 +104,12 @@ body {
 
   #remoteVideo {
     max-height: 50vh;
+  }
+
+  .chatArea {
+    width: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
   }
 } 
