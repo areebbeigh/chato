@@ -12,6 +12,7 @@ Chato is a simple NodeJS web app for peer-to-peer video and/or text communicatio
 
 - Express
 - Socket.IO
+- WebRTC
 - Materialize CSS
 - ClipboardJS
 
