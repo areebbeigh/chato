@@ -16,7 +16,18 @@
           </a>
       </div>
       <div id="msgBox" class="msgBox"></div>
-      <input type="text" placeholder="Type something..." id="chatInput" class="msgInput">
+      <div class="chatForm">
+        <div class="row">
+          <div class="col s10">
+            <input type="text" placeholder="Type something..." id="chatInput" class="col s10 msgInput">
+          </div>
+          <div class="col s2">
+            <button id="#chatSendButton" class="col s2" onclick="sendChatData()">
+              <i class="material-icons">send</i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <video id="remoteVideo" autoplay></video>

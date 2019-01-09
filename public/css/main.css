@@ -23,8 +23,8 @@ body {
 }
 
 .chatArea {
-  width: 50%;
-  height: 50vh;
+  width: 520px;
+  height: 420px;
   background: #191818 !important;
   color: #fff; 
   position: fixed;
@@ -34,6 +34,7 @@ body {
 
 .chatArea .toolBar {
   position: relative;
+  min-height: 40px;
   height: 10%;
   border-bottom:3px solid #2b2a2a;
 }
@@ -71,13 +72,38 @@ body {
   margin-right: 15%;
 }
 
-.chatArea .msgInput {
+.chatArea .chatForm {
+  height: 10%;
+  border: 3px solid #2b2a2a !important;
+}
+
+.chatArea .chatForm .row {
+  height: 100%;
+}
+
+.chatArea .chatForm .col {
+  padding: 0;
+  height: 100%;
+}
+
+.chatArea .chatForm .msgInput {
   margin: 0 !important;
   background: #191818 !important;
   color: #fff;
+  border: none !important;
   padding-left: 3% !important;
-  border: 3px solid #2b2a2a !important;
   box-sizing: border-box !important;
+  width: 100%;
+}
+
+.chatArea .chatForm button {
+  width: 100% !important;
+  height: 100%;
+  background: inherit;
+  color: inherit;
+  border: none;
+  border-left: 3px solid #2b2a2a !important;
+  cursor: pointer;
 }
 
 .chatArea .msgInput:focus {

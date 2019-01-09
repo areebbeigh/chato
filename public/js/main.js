@@ -312,7 +312,7 @@ function connectedToPeer () {
 }
 
 function main () {
-  toggleChat()
+  // toggleChat()
   joinOrCreate()
   chatInput.addEventListener('keyup', function (e) {
     if (e.key === 'Enter') {
