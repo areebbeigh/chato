@@ -1,6 +1,13 @@
 # chato
 Chato is a simple NodeJS web app for peer-to-peer video and/or text communication between browsers using WebSocket and WebRTC.
 
+<details><summary>Unsolicited preview with my face (you might not wanna see this)</summary>
+  <p>
+    
+  ![Screenshot](https://github.com/areebbeigh/chato/blob/master/Screenshot_20190109_150514.png)
+  </p>
+</details>
+
 ### What's being used
 
 - Express
